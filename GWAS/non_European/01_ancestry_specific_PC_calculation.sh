@@ -11,7 +11,6 @@
 pop=south_asian
 work_dir=/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/non_EUR_GWAS/non_European_ancestry_GWAS_results
 
-cd $work_dir/$pop
 ###### extract ancestry-specific genotype data
 cd /scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/codes
 
