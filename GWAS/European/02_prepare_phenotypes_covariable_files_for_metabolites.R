@@ -125,7 +125,7 @@ write.table(CovarCol_clsa_europ_unrelated[,1:2],"/scratch/richards/yiheng.chen/p
 # colnames(fam_id)<-c("ADM_GWAS_COM","ADM_GWAS_COM1")
 
 setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/GWAS_related_results/metabolites_phenotype")
-metabolite_list_totest<-metabolite_list<-unique(colnames(dat5[,2:1092]))
+metabolite_list_totest<-unique(colnames(dat5[,2:1092]))
 post_outlier_removal_mean_sd<-data.frame(
   metabolite=character(),
   mean=numeric(),
