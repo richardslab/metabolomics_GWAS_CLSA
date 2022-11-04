@@ -8,20 +8,20 @@ CLSA_NORMDATAALL<-read.csv("./clsa_phenotypes/clsa_batch_norm_metabo_dat",na.str
 ## metabolomics ADM_GWAS_ID
 Metabolon_client_identifier<-read.csv("./clsa_phenotypes/linking_file")
 ## baseline data
-Baseline_data_v3<-read.csv("./clsa_phenotypes/clsa_baseline_data", header=TRUE,stringsAsFactors=FALSE)
+Baseline_data_v5<-read.csv("./clsa_phenotypes/clsa_baseline_data", header=TRUE,stringsAsFactors=FALSE)
 ##metabolites annotation
 matabolites_annotation<-read.csv("./clsa_phenotypes/clsa_metabo_annotation_dat")
 #metabolomics metadata
 ID_metadat<-read.csv("./clsa_phenotypes/clsa_metabo_meta_dat")
 ##subset baseline data
-Baseline_data_v3_sub<-Baseline_data_v3 %>% select("ADM_GWAS3_COM","entity_id","SEX_ASK_COM", "AGE_NMBR_COM","BLD_ALC24_HR_COM","BLD_ALC24_MIN_COM", "BLD_FD24_HR_COM", "BLD_FD24_MIN_COM")
-colnames(Baseline_data_v3_sub)<-c("ADM_GWAS_COM","entity_id","SEX_ASK_COM", "AGE_NMBR_COM","BLD_ALC24_HR_COM","BLD_ALC24_MIN_COM", "BLD_FD24_HR_COM", "BLD_FD24_MIN_COM")
+Baseline_data_v5_sub<-Baseline_data_v5 %>% select("ADM_GWAS3_COM","entity_id","SEX_ASK_COM", "AGE_NMBR_COM","BLD_ALC24_HR_COM","BLD_ALC24_MIN_COM", "BLD_FD24_HR_COM", "BLD_FD24_MIN_COM")
+colnames(Baseline_data_v5_sub)<-c("ADM_GWAS_COM","entity_id","SEX_ASK_COM", "AGE_NMBR_COM","BLD_ALC24_HR_COM","BLD_ALC24_MIN_COM", "BLD_FD24_HR_COM", "BLD_FD24_MIN_COM")
 
 ##remove the row without ADM_GWAS_COM
-Baseline_data_v3_sub_withADMid<-Baseline_data_v3_sub[is.na(Baseline_data_v3_sub$ADM_GWAS_COM)==FALSE,]
+Baseline_data_v5_sub_withADMid<-Baseline_data_v5_sub[is.na(Baseline_data_v5_sub$ADM_GWAS_COM)==FALSE,]
 ##merge data
 dat1<-merge(CLSA_NORMDATAALL, Metabolon_client_identifier, by="PARENT_SAMPLE_NAME")
-dat2<-left_join(dat1, Baseline_data_v3_sub_withADMid, by="ADM_GWAS_COM")
+dat2<-left_join(dat1, Baseline_data_v5_sub_withADMid, by="ADM_GWAS_COM")
 dat3<-left_join(dat2, ID_metadat, by="PARENT_SAMPLE_NAME")
 
 ##### remove the metabolites have no measurements in >50% of samples
@@ -36,11 +36,10 @@ for(i in names(dat3_filtered_metaboMeasurement)){
 dat4<-dat3 %>% select(PARENT_SAMPLE_NAME,metabolite_list,BLD_FD24_HR_COM,ADM_GWAS_COM)
 
 #### check if there is any individual with over 50% missing
-dat4_1<-dat4 %>% mutate(missingMeasurement_perce = rowSums(is.na(across(X35:X999926111)))/1091) ## all samples (9628 have all measurements)
 dat4_filtered<-dat4 %>% mutate(missingMeasurement_perce = rowSums(is.na(across(X35:X999926111)))/1091) %>% filter(missingMeasurement_perce<0.5) ## all the individual have >50% measurements
 
 #### get the individual with hour to last meal/drink information
-dat5 <-dat4_filtered %>% filter(BLD_FD24_HR_COM>=0) ## 442 individuals have missing information were removed (left 9186)
+dat5 <-dat4_filtered %>% filter(BLD_FD24_HR_COM>=0)
 
 ################################# genomic information
 fam_dat<-fread("./clsa_imputed_genotype_data/clsa_gen_v3.fam")
@@ -75,7 +74,7 @@ for (i in 1:3){
    names(pca_res)[2:ncol(pca_res)] <- paste0("PC", 1:(ncol(pca_res)-1))
    ##prepare covariables for fastGWA
    covarCol_data<-sqc_file_all_ancestries%>%filter(pca.cluster.id == i)
-   covarCol_data1<-left_join(covarCol_data, Baseline_data_v3_sub[,c(1,4)])#add age info
+   covarCol_data1<-left_join(covarCol_data, Baseline_data_v5_sub[,c(1,4)])#add age info
    covarCol_data2<-left_join(covarCol_data1, pca_res, by=c("ADM_GWAS_COM"="ind"))
    dat5_sub<-dat5%>%select(ADM_GWAS_COM, BLD_FD24_HR_COM)## select BLD_FD24_HR_COM, BLD_FD24_HR_COM columns
    covarCol_data3<-left_join(covarCol_data2,dat5_sub) 
