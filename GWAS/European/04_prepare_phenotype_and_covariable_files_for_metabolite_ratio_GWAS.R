@@ -1,9 +1,7 @@
 library(ggplot2)
-library(ggfortify)
 require(corrplot)
 library(data.table)
 library(dplyr)
-library(splines)
 
 setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/data")
 CLSA_NORMDATAALL<-read.csv("./clsa_phenotypes/clsa_batch_norm_metabo_dat",na.strings=c("","NA"," ","Metabolite_not_called_in_this_set", "NaN"))
@@ -41,7 +39,6 @@ for(i in names(dat3_filtered_metaboMeasurement)){
 dat4<-dat3 %>% select(PARENT_SAMPLE_NAME,metabolite_list,BLD_FD24_HR_COM,ADM_GWAS_COM)
 
 #### check if there is any individual with over 50% missing
-dat4_1<-dat4 %>% mutate(missingMeasurement_perce = rowSums(is.na(across(X35:X999926111)))/1091) ## all samples (9628 have all measurements)
 dat4_filtered<-dat4 %>% mutate(missingMeasurement_perce = rowSums(is.na(across(X35:X999926111)))/1091) %>% filter(missingMeasurement_perce<0.5) ## all the individual have >50% measurements
 
 #### get the individual with hour to last meal/drink information
@@ -81,8 +78,8 @@ colnames(covarCol_data2)<-c("FID","IID","batch","chromosomal.sex","pca.cluster.i
 qcovarCol_clsa_europ_unrelated<-covarCol_data2 %>% select(FID, IID, ePC1, ePC2, ePC3, ePC4, ePC5, ePC6, ePC7, ePC8, ePC9, ePC10, Age, BLD_FD24_HR_COM) 
 CovarCol_clsa_europ_unrelated <-covarCol_data2 %>% select(FID, IID, batch, Sex)
 
-#write.table(qcovarCol_clsa_europ_unrelated,"qcovarCol_clsa_europ_unrelated_noHeader.txt",sep="\t",quote = FALSE, row.names = FALSE, col.names = FALSE) ##8299 europeans have all information
-#write.table(CovarCol_clsa_europ_unrelated,"CovarCol_clsa_europ_unrelated_noHeader.txt",sep="\t",quote = FALSE, row.names = FALSE, col.names = FALSE)##8299 europeans have all information
+write.table(qcovarCol_clsa_europ_unrelated,"qcovarCol_clsa_europ_unrelated_noHeader.txt",sep="\t",quote = FALSE, row.names = FALSE, col.names = FALSE) ##8299 europeans have all information
+write.table(CovarCol_clsa_europ_unrelated,"CovarCol_clsa_europ_unrelated_noHeader.txt",sep="\t",quote = FALSE, row.names = FALSE, col.names = FALSE)##8299 europeans have all information
 
 #### prepare metaabolite ratio phenotypes (standardization)
 distinct_metabo_pairs<-read.csv("../GWAS_related_results/distinct_metabolon_ID_pairs_for_GWAS", row.names = 1)
@@ -95,10 +92,6 @@ for (n in 1:nrow(distinct_metabo_pairs)){
   mean_ratio<-mean(dat_sub$metabo_ratio,na.rm = TRUE)
   sd_ratio<-sd(dat_sub$metabo_ratio,na.rm = TRUE)
   dat_sub_filter<-dat_sub %>% filter(abs((metabo_ratio-mean_ratio)/sd_ratio)<=3) 
-  ##standardize data
-  #mean_ratio<-mean(dat_sub_filter$metabo_ratio,na.rm = TRUE)
-  #sd_ratio<-sd(dat_sub_filter$metabo_ratio,na.rm = TRUE)
-  #dat_sub_filter$std_ratio<-apply(dat_sub_filter, 1, function(x) (as.numeric(x[4])-mean_ratio)/sd_ratio)
   dat_sub_filter$inv_norm_std_ratio<-qnorm((rank(dat_sub_filter$metabo_ratio,na.last="keep")-0.5)/sum(!is.na(dat_sub_filter$metabo_ratio)))
   phenoCol<-left_join(covarCol_data[,1:2],dat_sub_filter[,c(1,5)],by="ADM_GWAS_COM")
   colnames(phenoCol)<-c("FID","IID","inv_norm_metabo_ratio")
