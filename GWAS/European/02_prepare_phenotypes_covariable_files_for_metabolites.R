@@ -41,23 +41,15 @@ for(i in names(dat3_filtered_metaboMeasurement)){
 dat4<-dat3 %>% select(PARENT_SAMPLE_NAME,metabolite_list,BLD_FD24_HR_COM,ADM_GWAS_COM)
 
 #### check if there is any individual with over 50% missing
-dat4_1<-dat4 %>% mutate(missingMeasurement_perce = rowSums(is.na(across(X35:X999926111)))/1091) ## all samples (9628 have all measurements)
 dat4_filtered<-dat4 %>% mutate(missingMeasurement_perce = rowSums(is.na(across(X35:X999926111)))/1091) %>% filter(missingMeasurement_perce<0.5) ## all the individual have >50% measurements
 
 #### get the individual with hour to last meal/drink information
 dat5 <-dat4_filtered %>% filter(BLD_FD24_HR_COM>=0) ## 442 individuals have missing information were removed (left 9186)
 
-nrow(dat5) ## 9186 samples have pass the filter 
-
-
 ################################# genomic information
 fam_dat<-fread("./clsa_imputed_genotype_data/clsa_gen_v3.fam")
 sample_dat<-fread("./clsa_imputed_genotype_data/clsa_imp_v3.sample")
 sqc_file<-fread("./clsa_imputed_genotype_data/clsa_sqc_v3.txt")
-
-table(sample_dat$ID_1 == sample_dat$ID_2)
-# TRUE 
-# 26631 
 
 ################ merge metabolomics data and genomic information
 ### list of individuals without metabolomics measurement or did not pass previous filter
@@ -67,9 +59,6 @@ ID_list_compl<-ID_list[complete.cases(ID_list),]
 colnames(ID_list_compl)<-c("FID","IID")
 ID_list_no_metabo<-sample_dat %>% select(ID_1, ID_2) %>% filter(!(ID_1 %in% ID_list_compl$FID) | !(ID_1 %in% dat5$ADM_GWAS_COM )) 
 colnames(ID_list_no_metabo)<-c("FID","IID") ### 17445 individuals can be removed from GWAS
-
-# setwd("/scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/scratch/April122021_GCTA_test/April28_analysis_revised_clsa_metabo_data")
-# write.table(ID_list_no_metabo,"indiv_no_metabo.txt",sep="\t",quote = FALSE, row.names = FALSE)
 
 ## prepare a new sample file
 sample_dat_sub<-sample_dat %>% filter((ID_1 %in% ID_list_compl$FID) & (ID_1 %in% dat5$ADM_GWAS_COM ))
@@ -81,8 +70,6 @@ sqc_file_unrelated_europ<-sqc_file %>%
   filter((pca.cluster.id==4)& (ADM_GWAS_COM %in% sample_dat_sub$ID_1)) %>%
   filter(ADM_GWAS_COM %in% clsa_unrelated_indiv$V1)%>%
   mutate(Sex=ifelse(chromosomal.sex == 1, "M", ifelse(chromosomal.sex == 2, "F", "NA")))
-#9186 (indiv with metabo measurement, food intake info) -->8502 (european)--> 8299 (no 2nd degree or closer relatives)
-
 
 ### check number of individuals from other ancestry
 sqc_file_unrelated_all_ancestries<-sqc_file %>% 
@@ -101,10 +88,6 @@ p<-p+geom_point(shape=1, size =3)+scale_color_manual(values=c('#e41a1c','#377eb8
   theme_bw()+theme(axis.text.x = element_text(size=18), axis.text.y = element_text(size=18),
                    axis.title=element_text(size=20), 
                    legend.text=element_text(size=18), legend.title=element_text(size=20))
-p
-tiff("/scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/scratch/June112021_GCTA_GWAS/July15201_revised_analysis/plotting_codes/00_PCA_plots_CLSA_individuals_with_metabolomics_measurements.tiff", width = 1000, height = 900, units = "px")
-p
-dev.off()
 
 ## prepare covariable files
 covarCol_data<-cbind(sqc_file_unrelated_europ$ADM_GWAS_COM,sqc_file_unrelated_europ)
@@ -119,11 +102,7 @@ write.table(qcovarCol_clsa_europ_unrelated,"qcovarCol_clsa_europ_unrelated_noHea
 write.table(CovarCol_clsa_europ_unrelated,"CovarCol_clsa_europ_unrelated_noHeader.txt",sep="\t",quote = FALSE, row.names = FALSE, col.names = FALSE)##8299 europeans have all information
 write.table(CovarCol_clsa_europ_unrelated[,1:2],"/scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/scratch/June112021_GCTA_GWAS/clsa_metabo_eur_unrelated_sublist_for_gwas_8299.txt",sep="\t",quote = FALSE, row.names = FALSE, col.names = FALSE)
 
-
 #### prepare phenotype data for gwas
-# fam_id<-data.frame(fam_dat[,1:2])
-# colnames(fam_id)<-c("ADM_GWAS_COM","ADM_GWAS_COM1")
-
 setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/GWAS_related_results/metabolites_phenotype")
 metabolite_list_totest<-unique(colnames(dat5[,2:1092]))
 post_outlier_removal_mean_sd<-data.frame(
