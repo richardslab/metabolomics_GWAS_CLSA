@@ -1,33 +1,26 @@
 ## the following codes filter all imputed SNPs with two critiera: maf=0.001; imputation info score: >0.3
-
 cd /scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/codes
 
 for i in {1..22}; {
-        ./program/plink2 --bgen ./data/clsa_imputed_genotype_data/clsa_imp_${i}_v3.bgen ref-first \
+        plink2 --bgen ./data/clsa_imputed_genotype_data/clsa_imp_${i}_v3.bgen ref-first \
         --sample ./data/clsa_imputed_genotype_data/clsa_imp_v3.sample --maf 0.001 --mach-r2-filter 0.3 2.0 --make-bed \
         --out ./data/clsa_imputed_genotype_processed/clsa_imp_${i}_v3
 }
 
 ##### generate a list of unrelated individuals use king
 ## merge plink files for all autosomes
-cd /home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/
-
-./program/plink --bfile ./data/clsa_imputed_genotype_data/clsa_gen_v3 \
+plink --bfile ./data/clsa_imputed_genotype_data/clsa_gen_v3 \
 --chr 1-22 --make-bed --out ./data/clsa_genotype_processed/clsa_gen_v3_nosexchr
 ## use KING to generated a list of unrelated individuals
 king -b ./data/clsa_genotype_processed/clsa_gen_v3_nosexchr.bed --unrelated --degree 2
 
 ## get  genotying snps from non-sex chromosome 
-cd /home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/
 
-./program/plink --bfile ./data/clsa_imputed_genotype_data/clsa_gen_v3 --chr 1-22 --make-bed \
+plink --bfile ./data/clsa_imputed_genotype_data/clsa_gen_v3 --chr 1-22 --make-bed \
 --out ./data/clsa_genotype_processed_grm/clsa_gen_v3_nosexchr
 
-#the genotyping files are in hg19
-
 ########## prune the list of SNPs used for calculating grm
-
-./program/plink \
+plink \
 --bfile ./data/clsa_genotype_processed_grm/clsa_gen_v3_nosexchr \
 --exclude ./data/high-LD-regions-hg19.txt \
 --geno 0.05 \
@@ -39,11 +32,8 @@ cd /home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/
 --out ./data/LD_pruned_snp_for_grm/clsa_gen_v3_nosexchr.europ.pruned \
 --write-snplist
 
-
 ################# calculate grm
-cd /home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/
-
-./program/gcta64 \
+gcta64 \
 --bfile ./data/clsa_genotype_processed_grm/clsa_gen_v3_nosexchr \
 --autosome \
 --make-grm \
