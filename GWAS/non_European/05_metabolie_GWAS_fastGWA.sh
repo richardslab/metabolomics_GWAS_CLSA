@@ -16,6 +16,6 @@ cd $work_dir/$pop/phenotype/metabolites
 
 FILE=$(ls *.txt | sed -n ${PBS_ARRAYID}p)
 
-${program_dir}/gcta64 --mbfile $work_dir/$pop/genotype/clsa_imp_dat/geno_clsa_v3_bfiles.txt \
+gcta64 --mbfile $work_dir/$pop/genotype/clsa_imp_dat/geno_clsa_v3_bfiles.txt \
 --grm-sparse $work_dir/$pop/genotype/grm/sp_grm_${pop}_clsa_ldpruned --fastGWA-mlm --pheno ${FILE} --qcovar $work_dir/$pop/phenotype/qcovarCol_clsa_${pop}_noHeader.txt \
 --covar $work_dir/$pop/phenotype/CovarCol_clsa_${pop}_noHeader.txt --threads 6 --out $work_dir/$pop/GWAS/${FILE}_gwas_v3;
