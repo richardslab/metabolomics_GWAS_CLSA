@@ -13,7 +13,7 @@ work_dir=work_dir=/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWA
 cd /scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/codes
 
 for i in {1..22}; {
-        ./program/plink2 --bgen ./data/clsa_imputed_genotype_data/clsa_imp_${i}_v3.bgen ref-first \
+        plink2 --bgen ./data/clsa_imputed_genotype_data/clsa_imp_${i}_v3.bgen ref-first \
         --sample ./data/clsa_imputed_genotype_data/clsa_imp_v3.sample --maf 0.05 --mach-r2-filter 0.3 2.0 \
         --keep $work_dir/${pop}/phenotype/sqc_file_${pop}_ID.txt \
         --make-bed \
