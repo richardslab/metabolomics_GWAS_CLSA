@@ -13,7 +13,7 @@ work_dir=/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/co
 ########## prune the list of SNPs used for calculating grm
 cd /scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/codes
 
-./program/plink \
+plink \
 --bfile $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex \
 --exclude ./data/high-LD-regions-hg19.txt \
 --geno 0.05 \
@@ -25,7 +25,7 @@ cd /scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/codes
 --write-snplist
 
 ################# calculate grm
-./program/gcta64 \
+gcta64 \
 --bfile $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex \
 --autosome \
 --make-grm \
@@ -34,4 +34,4 @@ cd /scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/codes
 --out $work_dir/$pop/genotype/grm/grm_${pop}_clsa_ldpruned
 
 ######### makse sparse grm 
-./program/gcta64 --grm $work_dir/$pop/genotype/grm/grm_${pop}_clsa_ldpruned --make-bK-sparse 0.05 --out $work_dir/$pop/genotype/grm/sp_grm_${pop}_clsa_ldpruned
+gcta64 --grm $work_dir/$pop/genotype/grm/grm_${pop}_clsa_ldpruned --make-bK-sparse 0.05 --out $work_dir/$pop/genotype/grm/sp_grm_${pop}_clsa_ldpruned
