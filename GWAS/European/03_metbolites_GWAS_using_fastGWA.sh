@@ -18,9 +18,3 @@ FILE=$(ls *.txt | sed -n ${PBS_ARRAYID}p)
 ../../program/gcta64 --mbfile ${file_dir}/geno_clsa_v3_bfiles.txt --grm-sparse ${file_dir}/sp_grm_european_clsa_v3_ldpruned --fastGWA-mlm --pheno ${FILE} --qcovar ${file_dir}/qcovarCol_clsa_europ_unrelated_noHeader.txt --covar ${file_dir}/CovarCol_clsa_europ_unrelated_noHeader.txt --threads 10 --out ${output_dir}/${FILE}_gwas_v3;
 
 gzip ${output_dir}/${FILE}_gwas_v3.fastGWA
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
