@@ -14,7 +14,7 @@ work_dir=/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/co
 ###### extract ancestry-specific genotype data
 cd /scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/codes
 
-./program/plink --bfile ./data/clsa_imputed_genotype_data/clsa_gen_v3 --chr 1-22 \
+plink --bfile ./data/clsa_imputed_genotype_data/clsa_gen_v3 --chr 1-22 \
 --keep $work_dir/$pop/phenotype/sqc_file_${pop}_ID.txt \
 --make-bed \
 --out $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex
@@ -24,7 +24,7 @@ king -b $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex.bed --unrelated --degre
 ## no one needs to be removed within each ancestry
 
 ###### snp filter for PC calculation
-./program/plink --bfile $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex --chr 1-22 \
+plink --bfile $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex --chr 1-22 \
 --exclude ./data/high-LD-regions-hg19.txt \
 --snps-only just-acgt \
 --geno 0.05 \
@@ -38,18 +38,18 @@ king -b $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex.bed --unrelated --degre
 awk '($5~/[AT]/ && $6 ~/[AT]/) || ($5~/[GC]/ && $6~/[GC]/) { print $2 }' $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex_filtered.bim > $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex_filtered.palin;
 
 ####### get  independent snps from non-sex chromosome 
-./program/plink --bfile $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex_filtered \
+plink --bfile $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex_filtered \
 --indep-pairwise 1000 kb 5 0.1 \
 --out $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex_filtered_ld_checked
 
 ## create genotype data for specific ancestry
-./program/plink --bfile $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex_filtered \
+plink --bfile $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex_filtered \
 --exclude $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex_filtered.palin \
 --extract $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex_filtered_ld_checked.prune.in \
 --make-bed \
 --out $work_dir/$pop/genotype/clsa_gen_v3_pruned_forPC_${pop}
 
 ### run PC calcultion
-./program/plink --bfile $work_dir/$pop/genotype/clsa_gen_v3_pruned_forPC_${pop} \
+plink --bfile $work_dir/$pop/genotype/clsa_gen_v3_pruned_forPC_${pop} \
 --pca \
 --out $work_dir/$pop/genotype/clsa_gen_v3_pruned_forPC_${pop}_pca
