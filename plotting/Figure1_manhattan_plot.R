@@ -5,7 +5,7 @@ library(ggplot2)
 library(tidyr)
 library(RColorBrewer)
 
-setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/plotting")
+setwd("./analysis_dir/plotting")
 matabolites_annotation_July2<-read.csv("CLSA_COMBINED_ANNOTATIONTABLEALL_v1_modi_July2021")
 metabo_superpathway_list<-matabolites_annotation_July2 %>% rowwise() %>% mutate(SUPER_PATHWAY_mod=ifelse(SUPER_PATHWAY == "", "Unknown", SUPER_PATHWAY)) %>% select(metabo_ID, SUPER_PATHWAY_mod) %>% distinct()
 
