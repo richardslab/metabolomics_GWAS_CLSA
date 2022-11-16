@@ -3,7 +3,7 @@ library(tidyr)
 library(dplyr)
 library(data.table)
 
-setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/plotting")
+setwd("./analysis_dir/plotting")
 clsa_metabolite_ratios_cojo_SNPs_formatted_rsid_bonf_filtered_enzyme_transporter<-read.csv("clsa_metabolite_ratios_cojo_SNPs_formatted_rsid_bonf_filtered_enzyme_transporter_with_locus",row.names = 1)
 
 #add super pathway info for metabo1 and metabo2
@@ -128,7 +128,7 @@ grid.col1 = structure(c(rep("#fc8d62", length(metabo_set_new[metabo_set_new$supe
 )
 
 circos.clear()
-tiff("chord_diagram_Oct202022.tiff", units="px", width=2500, height=2700, res=300)
+tiff("Fig3_chord_diagram.tiff", units="px", width=2500, height=2700, res=300)
 par(cex = 0.7, mar = c(0, 0, 0, 0))
 chordDiagram(plotting_set6[,c(9,10,4)], group = group1, grid.col=grid.col1, annotationTrack = "grid",col=col_fun(plotting_set6[,5]),
              preAllocateTracks = list(track.height = 0.3), link.border=link_fun(plotting_set6$index), link.lwd = 1)#link.border = "white"
