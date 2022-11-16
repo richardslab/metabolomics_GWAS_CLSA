@@ -3,7 +3,7 @@ library(ggplot2)
 library(dplyr)
 library(ggpubr)
 
-setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/plotting")
+setwd("./analysis_dir/plotting")
 metabolite_variance_explained_results_summary<-fread("metabolite_variance_explained_results_summary.txt")
 colnames(metabolite_variance_explained_results_summary)<-c("metabolite","test","variance_explained_by_genetics","se")
 
@@ -49,7 +49,7 @@ p_herta_n_loci_all<-ggplot(metabolite_variance_explained_n_loci, aes(x=n_loci, y
   stat_cor(method = "spearman", label.x = 6, label.y = 0.8, size=10)
 
 
-tiff("Fig2C_heritability_n_loci_metabolite_all_metabolites_Oct162022.tiff", width = 850, height =750, units = "px")
+tiff("Fig2C.tiff", width = 850, height =750, units = "px")
 p_herta_n_loci_all
 dev.off()
 
