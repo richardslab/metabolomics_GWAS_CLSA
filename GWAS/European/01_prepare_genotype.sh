@@ -1,5 +1,5 @@
 ## the following codes filter all imputed SNPs with two critiera: maf=0.001; imputation info score: >0.3
-cd /scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/codes
+cd ${analysis_dir}
 
 for i in {1..22}; {
         plink2 --bgen ./data/clsa_imputed_genotype_data/clsa_imp_${i}_v3.bgen ref-first \
