@@ -3,7 +3,7 @@ library(ggplot2)
 library(dplyr)
 library(ggpubr)
 
-setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/plotting")
+setwd("./analysis_dir/plotting")
 clsa_metabolite_cojo_SNPs_filtered1 <- read.csv("clsa_metabolite_cojo_SNPs_with_loci", row.names = 1)
 
 #### plot n metabolite per locus (pleitropy)
@@ -25,6 +25,6 @@ p_pleio_line<-ggplot(data=n_metaoblite_per_locus2, aes(x=lous_index/248*100, y=l
         panel.border = element_rect(colour = "black"))+
   labs(x="Percentage of all loci", y="Number of associated metabolites", size=100)
 
-tiff("Fig2D_distribution_of_pleiotriopy_v2_by_loci_percent_Oct162022.tiff", width = 800, height = 750, units = "px")
+tiff("Fig2D.tiff", width = 800, height = 750, units = "px")
 p_pleio_line
 dev.off()
