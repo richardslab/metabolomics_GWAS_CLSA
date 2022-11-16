@@ -2,7 +2,7 @@ library(data.table)
 library(dplyr)
 library(tidyverse)
 
-setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/data")
+setwd("./analysis_dir")
 CLSA_NORMDATAALL<-read.csv("./clsa_phenotypes/clsa_batch_norm_metabo_dat",na.strings=c("","NA"," ","Metabolite_not_called_in_this_set", "NaN"))
 
 ## metabolomics ADM_GWAS_ID
