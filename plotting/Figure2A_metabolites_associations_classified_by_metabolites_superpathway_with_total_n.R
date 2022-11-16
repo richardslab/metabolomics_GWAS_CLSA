@@ -1,7 +1,7 @@
 library(dplyr)
 library(data.table)
 library(ggplot2)
-setwd("./plotting")
+setwd("./analysis_dir/plotting")
 matabolites_annotation_July2<-read.csv("CLSA_COMBINED_ANNOTATIONTABLEALL_v1_modi_July20201.csv")
 metabo_superpathway_list<-matabolites_annotation_July2 %>% rowwise() %>% mutate(SUPER_PATHWAY_mod=ifelse(SUPER_PATHWAY == "", "Unknown", SUPER_PATHWAY)) %>% select(metabo_ID,  CHEMICAL_NAME, SUPER_PATHWAY_mod) %>% distinct()
 
@@ -57,6 +57,6 @@ p_bar<-ggplot(all_superpathway_n1_melt1, aes(fill=Class, x=reorder(`super_pathwa
   labs(x="Super pathways (N metabolites tested in GWAS)", y="Counts", size=10)+
   guides(fill = guide_legend(title = "Classes", title.position = "top", ncol=1))
 
-tiff("Fig2A_metabolites_associations_classified_by_metabolites_superpathway_with_total_n_v2_all_novel_check_Oct162022.tiff", width = 1050, height = 1000, units = "px")
+tiff("Fig2A.tiff", width = 1050, height = 1000, units = "px")
 p_bar
 dev.off()
