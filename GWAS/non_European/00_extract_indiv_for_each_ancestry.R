@@ -2,7 +2,7 @@ library(data.table)
 library(dplyr)
 library(tidyverse)
 
-setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/data")
+setwd("./analysis_dir/data")
 CLSA_NORMDATAALL<-read.csv("./clsa_phenotypes/clsa_batch_norm_metabo_dat",na.strings=c("","NA"," ","Metabolite_not_called_in_this_set", "NaN"))
 
 ## metabolomics ADM_GWAS_ID
@@ -65,7 +65,7 @@ pop_matching_dat<-data.frame(index=c(1,2,3,4),pop=c("south_asian","east_asian", 
 
 work_dir="../non_EUR_GWAS"
 
-###### generate PCs for specific Ancestry
+###### generate get ancestry specific sqc files
 for (i in 1:4){
   pop=pop_matching_dat$pop[i]
   sqc_file_sub=sqc_file_all_ancestries%>%filter(pca.cluster.id == i)%>%select(ADM_GWAS_COM)
