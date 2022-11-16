@@ -3,7 +3,7 @@ library(dplyr)
 library(stringr)
 library(data.table)
 
-setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/plotting")
+setwd("./analysis_dir/plotting")
 clsa_metabolite_cojo_SNPs_formatted_rsid_filtered<-read.csv("clsa_metabolite_cojo_SNPs_with_loci_May2022.csv",row.name=1)
 clsa_metabolite_ratios_cojo_SNPs_formatted_rsid_filtered<-read.csv("clsa_metabolite_ratios_cojo_SNPs_formatted_rsid_bonf_filtered_enzyme_transporter_with_locus_May2022.csv",row.name=1)
 
@@ -42,14 +42,15 @@ p1<-ggplot(mr_result_filtered_immune, aes(x = log(Beta_Odds.ratio), y = reorder(
   scale_x_continuous(breaks = c(log(0.2),log(0.5),log(1),log(2),log(5),log(10)),
                      labels = c(0.2,0.5,1,2,5,10))
 
-tiff("mr_result_filtered_immune_Oct162022.tiff", width = 1300, height = 2700, units = "px", res=150)
+tiff("mr_result_immune.tiff", width = 1300, height = 2700, units = "px", res=150)
 p1
 dev.off()
 
 ## for the metabolism-related traits (OR trait)
 mr_result_filtered_metabo <- mr_result_filtered[mr_result_filtered$Category=="Metabolism-related" & mr_result_filtered$traits !="BMI",]
 mr_result_filtered_metabo$name_plot <- paste0(mr_result_filtered_metabo$full_name,"__",mr_result_filtered_metabo$traits)
-tiff("mr_result_filtered_metabolism_OR_Oct162022.tiff", width = 1300, height = 1000, units = "px", res=150)
+                                                      
+tiff("mr_result)metabolism_OR.tiff", width = 1300, height = 1000, units = "px", res=150)
 ggplot(mr_result_filtered_metabo, aes(x = log(Beta_Odds.ratio), y = reorder(name_plot,-Beta_Odds.ratio))) +
   geom_errorbarh(aes(xmin = log(CIL), xmax = log(CIU)), color = "#d95f02", height = 0, size=1.2) +
   geom_point(color = "#d95f02", size=2.5) +
@@ -73,7 +74,7 @@ dev.off()
 ## for the metabolism-related traits (beta trait) -->BMI
 mr_result_filtered_bmi <- mr_result_filtered[mr_result_filtered$traits =="BMI",]
 mr_result_filtered_bmi$name_plot <- paste0(mr_result_filtered_bmi$full_name,"__",mr_result_filtered_bmi$traits)
-tiff("mr_result_filtered_metabolism_beta_Oct162022.tiff", width = 1300, height = 300, units = "px", res=150)
+tiff("mr_result_metabolism_beta.tiff", width = 1300, height = 300, units = "px", res=150)
 ggplot(mr_result_filtered_bmi, aes(x = Beta_Odds.ratio, y = reorder(name_plot,-Beta_Odds.ratio))) +
   geom_errorbarh(aes(xmin =CIL, xmax = CIU), color = "#d95f02", height = 0,size=1.2) +
   geom_point(color = "#d95f02",size=2.5) +
@@ -98,7 +99,7 @@ dev.off()
 ## for the aging-related traits (OR trait)
 mr_result_filtered_aging <- mr_result_filtered[mr_result_filtered$Category=="Aging-related" & mr_result_filtered$traits !="eBMD",]
 mr_result_filtered_aging$name_plot <- paste0(mr_result_filtered_aging$full_name,"__",mr_result_filtered_aging$traits)
-tiff("mr_result_filtered_aging_OR_Oct162022.tiff", width = 1300, height = 400, units = "px", res=150)
+tiff("mr_result_aging_OR.tiff", width = 1300, height = 400, units = "px", res=150)
 ggplot(mr_result_filtered_aging, aes(x = log(Beta_Odds.ratio), y = reorder(name_plot,-Beta_Odds.ratio))) +
   geom_errorbarh(aes(xmin = log(CIL), xmax = log(CIU)), color = "#7570b3", height = 0,size=1.2) +
   geom_point(color = "#7570b3",size=2.5) +
@@ -126,7 +127,7 @@ mr_result_filtered_eBMD <- mr_result_filtered[mr_result_filtered$traits =="eBMD"
 mr_result_filtered_eBMD<-mr_result_filtered_eBMD%>%rowwise()%>%mutate(full_name_modi=ifelse(full_name == "N-acetylputrescine / (N(1) + N(8))-acetylspermidine", "N-acetylputrescine / (N(1)+N(8))-acetylspermidine", full_name))
 
 mr_result_filtered_eBMD$name_plot <- paste0(mr_result_filtered_eBMD$full_name_modi,"__",mr_result_filtered_eBMD$traits)
-tiff("mr_result_filtered_aging_beta_Oct162022.tiff", width = 1300, height = 1250, units = "px", res=150)
+tiff("mr_result_aging_beta.tiff", width = 1300, height = 1250, units = "px", res=150)
 ggplot(mr_result_filtered_eBMD, aes(x = Beta_Odds.ratio, y = reorder(name_plot,-Beta_Odds.ratio))) +
   geom_errorbarh(aes(xmin =CIL, xmax = CIU), color = "#7570b3", height = 0,size=1.2) +
   geom_point(color = "#7570b3",size=2.5) +
