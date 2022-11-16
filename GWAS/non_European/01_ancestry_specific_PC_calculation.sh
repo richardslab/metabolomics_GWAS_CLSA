@@ -9,10 +9,10 @@
 #PBS -l vmem=24G
 
 pop=south_asian
-work_dir=/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/non_EUR_GWAS/non_European_ancestry_GWAS_results
+work_dir=${analysis_dir}/non_EUR_GWAS/non_European_ancestry_GWAS_results
 
 ###### extract ancestry-specific genotype data
-cd /scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/codes
+cd ${analysis_dir}
 
 plink --bfile ./data/clsa_imputed_genotype_data/clsa_gen_v3 --chr 1-22 \
 --keep $work_dir/$pop/phenotype/sqc_file_${pop}_ID.txt \
