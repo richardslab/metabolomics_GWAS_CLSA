@@ -3,7 +3,7 @@ require(corrplot)
 library(data.table)
 library(dplyr)
 
-setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/data")
+setwd("./data")
 CLSA_NORMDATAALL<-read.csv("./clsa_phenotypes/clsa_batch_norm_metabo_dat",na.strings=c("","NA"," ","Metabolite_not_called_in_this_set", "NaN"))
 
 ## metabolomics ADM_GWAS_ID
@@ -83,7 +83,6 @@ write.table(CovarCol_clsa_europ_unrelated,"CovarCol_clsa_europ_unrelated_noHeade
 
 #### prepare metaabolite ratio phenotypes (standardization)
 distinct_metabo_pairs<-read.csv("../GWAS_related_results/distinct_metabolon_ID_pairs_for_GWAS", row.names = 1)
-setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/GWAS_related_results/metabolites_ratio_phenotype")
 for (n in 1:nrow(distinct_metabo_pairs)){
   phenoCol<-NULL
   metabo1<-distinct_metabo_pairs$metabolite_ID.x[n]
@@ -95,5 +94,5 @@ for (n in 1:nrow(distinct_metabo_pairs)){
   dat_sub_filter$inv_norm_std_ratio<-qnorm((rank(dat_sub_filter$metabo_ratio,na.last="keep")-0.5)/sum(!is.na(dat_sub_filter$metabo_ratio)))
   phenoCol<-left_join(covarCol_data[,1:2],dat_sub_filter[,c(1,5)],by="ADM_GWAS_COM")
   colnames(phenoCol)<-c("FID","IID","inv_norm_metabo_ratio")
-  write.table(phenoCol, paste0("phenoCol_clsa_",metabo1,"_",metabo2,"_europ_inv_norm.txt"),sep="\t",quote = FALSE,row.names = FALSE, col.names = FALSE)
+  write.table(phenoCol, paste0("./GWAS_related_results/metabolites_ratio_phenotype/phenoCol_clsa_",metabo1,"_",metabo2,"_europ_inv_norm.txt"),sep="\t",quote = FALSE,row.names = FALSE, col.names = FALSE)
 }
