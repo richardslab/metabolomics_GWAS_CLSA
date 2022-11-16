@@ -8,10 +8,10 @@
 #PBS -l vmem=24G
 
 pop=south_asian
-work_dir=/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/non_EUR_GWAS/non_European_ancestry_GWAS_results
+work_dir=${analysis_dir}/non_EUR_GWAS/non_European_ancestry_GWAS_results
 
 ########## prune the list of SNPs used for calculating grm
-cd /scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/codes
+cd ${analysis_dir}
 
 plink \
 --bfile $work_dir/$pop/genotype/clsa_gen_v3_${pop}_nosex \
