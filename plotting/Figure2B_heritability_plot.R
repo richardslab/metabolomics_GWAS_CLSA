@@ -2,7 +2,7 @@ library(data.table)
 library(ggplot2)
 library(dplyr)
 
-setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/plotting")
+setwd("./analysis_dir/plotting")
 metabolite_variance_explained_results_summary<-fread("metabolite_variance_explained_results_summary.txt")
 colnames(metabolite_variance_explained_results_summary)<-c("metabolite","test","variance_explained_by_genetics","se")
 clsa_metabolite_cojo_SNPs_filtered<-read.csv("clsa_metabolites_cojo_formatted_rsid_formatted_filtered_May2022.csv",row.name=1)
@@ -40,6 +40,6 @@ p_violin<-ggplot(metabolite_variance_explained_results_summary_filtered2, aes(x=
                colour = "red") +
   geom_hline(yintercept=0.199774, linetype=2, col = 'blue', size=1.2)
 
-tiff("Fig2B_metabo_hertiability_by_superpathway_violin_v4_median_Oct162022.tiff", width = 1400, height = 880, units = "px")
+tiff("Fig2B.tiff", width = 1400, height = 880, units = "px")
 p_violin
 dev.off()
