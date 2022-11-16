@@ -9,8 +9,7 @@
 #PBS -t 1-971%10
 
 pop=south_asian
-work_dir=work_dir=/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/non_EUR_GWAS/non_European_ancestry_GWAS_results
-program_dir=/scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/codes/program
+work_dir=${analysis_dir}/non_EUR_GWAS/non_European_ancestry_GWAS_results
 
 cd $work_dir/$pop/phenotype/metabolites
 
