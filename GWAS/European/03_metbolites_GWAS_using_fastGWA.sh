@@ -8,10 +8,10 @@
 #PBS -l vmem=24G
 #PBS -t 1-1091%10
 
-cd /home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/GWAS_related_results/metabolites_phenotype
+cd ${analysis_dir}/GWAS_related_results/metabolites_phenotype
 
-file_dir=/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/data/europ_grm
-output_dir=/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/GWAS_related_results/metabo_GWAS
+file_dir=${analysis_dir}/data/europ_grm
+output_dir=${analysis_dir}/GWAS_related_results/metabo_GWAS
 
 FILE=$(ls *.txt | sed -n ${PBS_ARRAYID}p)
 
