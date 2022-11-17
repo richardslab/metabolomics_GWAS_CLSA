@@ -103,7 +103,7 @@ write.table(CovarCol_clsa_europ_unrelated,"CovarCol_clsa_europ_unrelated_noHeade
 write.table(CovarCol_clsa_europ_unrelated[,1:2],"/scratch/richards/yiheng.chen/project1_2_metabolomics_GWAS_CLSA/scratch/June112021_GCTA_GWAS/clsa_metabo_eur_unrelated_sublist_for_gwas_8299.txt",sep="\t",quote = FALSE, row.names = FALSE, col.names = FALSE)
 
 #### prepare phenotype data for gwas
-setwd("/home/richards/yiheng.chen/scratch/project1_2_metabolomics_GWAS_CLSA/codes/GWAS_related_results/metabolites_phenotype")
+setwd("./analysis_dir/GWAS_related_results/metabolites_phenotype")
 metabolite_list_totest<-unique(colnames(dat5[,2:1092]))
 post_outlier_removal_mean_sd<-data.frame(
   metabolite=character(),
