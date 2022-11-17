@@ -82,7 +82,7 @@ write.table(qcovarCol_clsa_europ_unrelated,"qcovarCol_clsa_europ_unrelated_noHea
 write.table(CovarCol_clsa_europ_unrelated,"CovarCol_clsa_europ_unrelated_noHeader.txt",sep="\t",quote = FALSE, row.names = FALSE, col.names = FALSE)##8299 europeans have all information
 
 #### prepare metaabolite ratio phenotypes (standardization)
-distinct_metabo_pairs<-read.csv("../GWAS_related_results/distinct_metabolon_ID_pairs_for_GWAS", row.names = 1)
+distinct_metabo_pairs<-read.csv("./GWAS_related_results/distinct_metabolon_ID_pairs_for_GWAS", row.names = 1)
 for (n in 1:nrow(distinct_metabo_pairs)){
   phenoCol<-NULL
   metabo1<-distinct_metabo_pairs$metabolite_ID.x[n]
