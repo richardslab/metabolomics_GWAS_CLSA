@@ -11,11 +11,11 @@ for i in {1..22}; {
 ## merge plink files for all autosomes
 plink --bfile ./data/clsa_imputed_genotype_data/clsa_gen_v3 \
 --chr 1-22 --make-bed --out ./data/clsa_genotype_processed/clsa_gen_v3_nosexchr
+
 ## use KING to generated a list of unrelated individuals
 king -b ./data/clsa_genotype_processed/clsa_gen_v3_nosexchr.bed --unrelated --degree 2
 
 ## get  genotying snps from non-sex chromosome 
-
 plink --bfile ./data/clsa_imputed_genotype_data/clsa_gen_v3 --chr 1-22 --make-bed \
 --out ./data/clsa_genotype_processed_grm/clsa_gen_v3_nosexchr
 
