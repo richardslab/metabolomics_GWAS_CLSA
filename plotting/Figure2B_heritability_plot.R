@@ -19,8 +19,6 @@ group.colors <- c(`Amino Acid` = "#fc8d62", Lipid = "#66c2a5",`Cofactors and Vit
                   Carbohydrate="#8da0cb",Peptide="#e5c494", Energy="#a6d854", `Unknown`="#bc80bd", `Partially Characterized Molecules`="#fdb462")
 metabolite_variance_explained_results_summary_filtered1$SUPER_PATHWAY_mod<-factor(metabolite_variance_explained_results_summary_filtered1$SUPER_PATHWAY_mod, 
                                                                                   levels=c("Amino Acid", "Lipid","Cofactors and Vitamins","Xenobiotics", "Nucleotide", "Carbohydrate","Peptide", "Energy", "Unknown","Partially Characterized Molecules"))
-
-## do not plot unknown or partially characterized metabolites
 metabolite_variance_explained_results_summary_filtered2<-metabolite_variance_explained_results_summary_filtered1%>%filter(!(SUPER_PATHWAY_mod %in% c("Partially Characterized Molecules", "Unknown")))
 
 p_violin<-ggplot(metabolite_variance_explained_results_summary_filtered2, aes(x=reorder(SUPER_PATHWAY_mod, -max_heri), variance_explained_by_genetics, fill=SUPER_PATHWAY_mod)) +
