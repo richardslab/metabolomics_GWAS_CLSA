@@ -3,16 +3,16 @@ library(dplyr)
 library(tidyverse)
 
 setwd("./analysis_dir")
-CLSA_NORMDATAALL<-read.csv("./clsa_phenotypes/clsa_batch_norm_metabo_dat",na.strings=c("","NA"," ","Metabolite_not_called_in_this_set", "NaN"))
+CLSA_NORMDATAALL<-read.csv("./data/clsa_phenotypes/clsa_batch_norm_metabo_dat",na.strings=c("","NA"," ","Metabolite_not_called_in_this_set", "NaN"))
 
 ## metabolomics ADM_GWAS_ID
-Metabolon_client_identifier<-read.csv("./clsa_phenotypes/linking_file")
+Metabolon_client_identifier<-read.csv("./data/clsa_phenotypes/linking_file")
 ## baseline data
-Baseline_data_v5<-read.csv("./clsa_phenotypes/clsa_baseline_data", header=TRUE,stringsAsFactors=FALSE)
+Baseline_data_v5<-read.csv("./data/clsa_phenotypes/clsa_baseline_data", header=TRUE,stringsAsFactors=FALSE)
 ##metabolites annotation
-matabolites_annotation<-read.csv("./clsa_phenotypes/clsa_metabo_annotation_dat")
+matabolites_annotation<-read.csv("./data/clsa_phenotypes/clsa_metabo_annotation_dat")
 #metabolomics metadata
-ID_metadat<-read.csv("./clsa_phenotypes/clsa_metabo_meta_dat")
+ID_metadat<-read.csv("./data/clsa_phenotypes/clsa_metabo_meta_dat")
 ##subset baseline data
 Baseline_data_v5_sub<-Baseline_data_v5 %>% select("ADM_GWAS3_COM","entity_id","SEX_ASK_COM", "AGE_NMBR_COM","BLD_ALC24_HR_COM","BLD_ALC24_MIN_COM", "BLD_FD24_HR_COM", "BLD_FD24_MIN_COM")
 colnames(Baseline_data_v5_sub)<-c("ADM_GWAS_COM","entity_id","SEX_ASK_COM", "AGE_NMBR_COM","BLD_ALC24_HR_COM","BLD_ALC24_MIN_COM", "BLD_FD24_HR_COM", "BLD_FD24_MIN_COM")
@@ -42,9 +42,9 @@ dat4_filtered<-dat4 %>% mutate(missingMeasurement_perce = rowSums(is.na(across(X
 dat5 <-dat4_filtered %>% filter(BLD_FD24_HR_COM>=0)
 
 ################################# genomic information
-fam_dat<-fread("./clsa_imputed_genotype_data/clsa_gen_v3.fam")
-sample_dat<-fread("./clsa_imputed_genotype_data/clsa_imp_v3.sample")
-sqc_file<-fread("./clsa_imputed_genotype_data/clsa_sqc_v3.txt")
+fam_dat<-fread("./data/clsa_imputed_genotype_data/clsa_gen_v3.fam")
+sample_dat<-fread("./data/clsa_imputed_genotype_data/clsa_imp_v3.sample")
+sqc_file<-fread("./data/clsa_imputed_genotype_data/clsa_sqc_v3.txt")
 
 ################ merge metabolomics data and genomic information
 ### list of individuals without metabolomics measurement or did not pass previous filter
@@ -61,7 +61,7 @@ sample_dat_sub<-sample_dat %>% filter((ID_1 %in% ID_list_compl$FID) & (ID_1 %in%
 #### prepare covariates data for gwas (non-european indiv)
 pop_matching_dat<-data.frame(index=c(1,2,3),pop=c("south_asian","east_asian", "black"))
 
-work_dir="../GWAS_related_results/metabolites_phenotype_nonEurop"
+work_dir="./GWAS_related_results/metabolites_phenotype_nonEurop"
 
 ###### generate PCs for specific Ancestry
 for (i in 1:3){
