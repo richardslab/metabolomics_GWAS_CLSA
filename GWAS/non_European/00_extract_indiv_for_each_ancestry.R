@@ -2,17 +2,17 @@ library(data.table)
 library(dplyr)
 library(tidyverse)
 
-setwd("./analysis_dir/data")
-CLSA_NORMDATAALL<-read.csv("./clsa_phenotypes/clsa_batch_norm_metabo_dat",na.strings=c("","NA"," ","Metabolite_not_called_in_this_set", "NaN"))
+setwd("./analysis_dir")
+CLSA_NORMDATAALL<-read.csv("./data/clsa_phenotypes/clsa_batch_norm_metabo_dat",na.strings=c("","NA"," ","Metabolite_not_called_in_this_set", "NaN"))
 
 ## metabolomics ADM_GWAS_ID
-Metabolon_client_identifier<-read.csv("./clsa_phenotypes/linking_file")
+Metabolon_client_identifier<-read.csv("./data/clsa_phenotypes/linking_file")
 ## baseline data
-Baseline_data_v5<-read.csv("./clsa_phenotypes/clsa_baseline_data", header=TRUE,stringsAsFactors=FALSE)
+Baseline_data_v5<-read.csv("./data/clsa_phenotypes/clsa_baseline_data", header=TRUE,stringsAsFactors=FALSE)
 ##metabolites annotation
-matabolites_annotation<-read.csv("./clsa_phenotypes/clsa_metabo_annotation_dat")
+matabolites_annotation<-read.csv("./data/clsa_phenotypes/clsa_metabo_annotation_dat")
 #metabolomics metadata
-ID_metadat<-read.csv("./clsa_phenotypes/clsa_metabo_meta_dat")
+ID_metadat<-read.csv("./data/clsa_phenotypes/clsa_metabo_meta_dat")
 ##subset baseline data
 Baseline_data_v5_sub<-Baseline_data_v5 %>% select("ADM_GWAS3_COM","entity_id","SEX_ASK_COM", "AGE_NMBR_COM", "HWT_DBMI_COM","BLD_FD24_HR_COM")
 colnames(Baseline_data_v5_sub)<-c("ADM_GWAS_COM","entity_id","SEX_ASK_COM", "AGE_NMBR_COM", "HWT_DBMI_COM", "BLD_FD24_HR_COM")
@@ -63,7 +63,7 @@ sample_dat_sub<-sample_dat %>% filter((ID_1 %in% ID_list_compl$FID) & (ID_1 %in%
 
 pop_matching_dat<-data.frame(index=c(1,2,3,4),pop=c("south_asian","east_asian", "black", "europ"))
 
-work_dir="../non_EUR_GWAS"
+work_dir="./non_EUR_GWAS"
 
 ###### generate get ancestry specific sqc files
 for (i in 1:4){
