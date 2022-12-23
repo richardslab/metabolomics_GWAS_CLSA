@@ -2,8 +2,6 @@
 require(corrplot)
 library(data.table)
 library(dplyr)
-library(qqman)
-library(splines)
 
 setwd("./analysis_dir")
 CLSA_NORMDATAALL<-read.csv("./data/clsa_phenotypes/clsa_batch_norm_metabo_dat",na.strings=c("","NA"," ","Metabolite_not_called_in_this_set", "NaN"))
