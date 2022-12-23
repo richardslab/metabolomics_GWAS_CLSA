@@ -1,4 +1,5 @@
-## the following codes filter all imputed SNPs with two critiera: maf=0.001; imputation info score: >0.3
+##### the following codes filter all imputed SNPs with two critiera: maf=0.001; imputation info score: >0.3 #########
+
 cd ${analysis_dir}
 
 for i in {1..22}; {
@@ -7,7 +8,7 @@ for i in {1..22}; {
         --out ./data/clsa_imputed_genotype_processed/clsa_imp_${i}_v3
 }
 
-##### generate a list of unrelated individuals use king
+##### generate a list of unrelated individuals use KING ##########
 ## merge plink files for all autosomes
 plink --bfile ./data/clsa_imputed_genotype_data/clsa_gen_v3 \
 --chr 1-22 --make-bed --out ./data/clsa_genotype_processed/clsa_gen_v3_nosexchr
@@ -19,7 +20,7 @@ king -b ./data/clsa_genotype_processed/clsa_gen_v3_nosexchr.bed --unrelated --de
 plink --bfile ./data/clsa_imputed_genotype_data/clsa_gen_v3 --chr 1-22 --make-bed \
 --out ./data/clsa_genotype_processed_grm/clsa_gen_v3_nosexchr
 
-########## prune the list of SNPs used for calculating grm
+########## prune the list of SNPs used for grm calculating ##########
 plink \
 --bfile ./data/clsa_genotype_processed_grm/clsa_gen_v3_nosexchr \
 --exclude ./data/high-LD-regions-hg19.txt \
@@ -30,9 +31,9 @@ plink \
 --keep-allele-order \
 --maf 0.001 \
 --out ./data/LD_pruned_snp_for_grm/clsa_gen_v3_nosexchr.europ.pruned \
---write-snplist
+--range
 
-################# calculate grm
+########## calculate grm ##########
 gcta64 \
 --bfile ./data/clsa_genotype_processed_grm/clsa_gen_v3_nosexchr \
 --autosome \
@@ -41,5 +42,5 @@ gcta64 \
 --thread-num 4 \
 --out ./data/europ_grm/grm_european_clsa_ldpruned
 
-######### makse sparse grm 
+######### makse sparse grm #########
 gcta64 --grm ./data/europ_grm/grm_european_clsa_ldpruned --make-bK-sparse 0.05 --out ./data/europ_grm/sp_grm_european_clsa_v3_ldpruned
